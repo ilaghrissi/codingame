@@ -1,1 +1,1 @@
-# codingame
+# Codingame quiz
