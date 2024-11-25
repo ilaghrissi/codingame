@@ -140,45 +140,177 @@ Parmi les choix suivants, lequel est vrai concernant la mise en cache avec Hiber
 
 
 ## Question/Réponse
+### Notion de base
 
-**Q1.** Quelle est le nom de l'interface Spring implémentée ci-dessous, utilisée pour valider un business Model depuis plusieurs modules Spring ?
-
-
-    public class UserValidator implements XXXXXX {
-    
-        public boolean supports(Class clazz) {
-            return User.class.equals(clazz);
-        }
-        
-        public void validate(Object obj, Errors e) {
-            ValidationUtils.rejectIfEmpty(e, "name", "name.empty");
-            User p = (User) obj;
-            if (p.getAge() < 0) {
-                e.rejectValue("age", "negativevalue");
-            } else if (p.getAge() > 110) {
-                e.rejectValue("age", "too.darn.old");
-            }
-        }
-    }
-
-Réponse : **Validator**
-
-
-**Q2.** Comment appelle-t-on les objets qui sont instancées, managés et détruits par un containeur IoC Spring ?
-
-Réponse : **beans**
-
-**Q3.** Quelle méthode de java.lang.String utiliseriez-vous pour découper la chaîne ci-dessous
+**Q1.** Quelle méthode de java.lang.String utiliseriez-vous pour découper la chaîne ci-dessous
 en tableau ou collection des chaînes de caractère, le découpage étant fait vis-à-vis du caractère de saut de ligne ?
 
 String str = "This is a string\n This is the next line.\nHello world."
 
-Réponse : **split**
+**R1.**: **split**
 
     String str = "This is a string\nThis is the next line.\nHello world.";
     String[] lines = str.split("\n");
 
-**Q4.** La difference entre un client bloquant (comme Feign) et un client non bloquant (comme WebClient) ?
+**Q2.** Quelle sont les types d'interface fonctionnelle ?
+
+**R2.**:
+
+**1. Predicate**:
+- est une interface fonctionnelle qui prend un argument et renvoie une valeur booléenne
+- son rôle est de tester une condition.
+- exemple :
+
+
+    List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    // Predicate qui teste si un nombre est pair
+    Predicate<Integer> isPair = number -> number % 2 == 0;
+
+**2. Function**:
+- est une interface fonctionnelle qui prend un argument et retourne un résultat.
+- Utilisée pour appliquer une transformation sur des éléments.
+- exemple :
+
+
+    List<String> words = List.of("apple", "banana", "cherry");
+        
+    // Function qui ajoute un préfixe à chaque mot
+    Function<String, String> addPrefix = word -> "Fruit: " + word;
+    // Utilisation de map avec Function
+    List<String> prefixedWords = words.stream()
+                                      .map(addPrefix)  // applique la transformation à chaque élément
+                                      .collect(Collectors.toList());
+        
+    System.out.println(prefixedWords);  // Sortie : [Fruit: apple, Fruit: banana, Fruit: cherry
+
+**3. Consumer**:
+- est une interface fonctionnelle qui représente une fonction qui prend un argument, mais ne renvoie pas de résultat (c'est-à-dire qu'il retourne void).
+- Utilisé pour consommer des éléments sans les modifier, généralement pour effectuer des actions comme afficher des résultats, enregistrer des données
+- exemple :
+
+
+    List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+    // Consumer qui affiche chaque nombre
+    Consumer<Integer> printNumber = number -> System.out.println(number);
+    // Utilisation de forEach avec Consumer
+    numbers.forEach(printNumber);  // Affiche chaque nombre
+
+**4. Supplier**:
+- Est une interface fonctionnelle qui ne prend pas d'argument et renvoie une valeur.
+- son rôle est de fournir des valeurs à la demande via l'appel de la méthode get.
+- exemple :
+
+
+    Supplier<Double> randomValues = ()-> Math.random();  
+    System.out.println(randomDouble.get());  // générerdes valeur aléatoire.
+
+
+**Q3.** C'est quoi la difference en Set et List ?
+
+**R3.**:
+- Set : 
+  - est une collection qui ne contient aucune duplication 
+  - basé sur equals et hashcode (pour ne pas avoir de duplication)
+  - Ne garanti pas l'ordre des éléments (dans HashSet) car ils sont distribués dans des buckets en fonction de leur hashCode() (sauf LinkedHashSet ou (TreeSet selon comparator)), 
+  - Optimise les performances, Très efficaces pour les opérations d'ajout, de recherche et de suppression.
+  - pas d'accès par index car les éléments ne sont pas indexés
+  - exemple d'utilisation : Gestion d'emails uniques, tags, calcul d'intersection entre ensembles
+
+- List : 
+  - Permet les doublons 
+  - basé sur un index
+  - assurent un ordre explicite des éléments.
+  - exemple d'utilisation : Historique des actions, gestion des tâches ordonnées, playlists.
+
+
+**Q4.** Comment Set assure la non-duplication des éléments ?
+
+**R4.** Grâce à l’utilisation d’un mécanisme interne basé sur les méthodes equals() et hashCode(), qui permettent de vérifier si deux objets sont égaux avant de les insérer dans la collection
+
+### Veille technique
+**Q1.** Quelles sont les nouveautés de Java 21 ?
+
+**R1.**
+- Virtual Threads : les threads virtuels créez des threads légers (virtually unlimited) gérés par le runtime JVM
+- Scoped value : Permet de partager des données immuables de manière efficace entre les threads. Alternative aux variables ThreadLocal.
+- String Templates : interpoler les chaînes
+- Pattern Matching for switch
+- Record Patterns
+ - Structured Concurrency : Simplifie la gestion des tâches parallèles, en groupant les tâches exécutées de manière structurée
+
+### Gestion de la mémoire 
+
+**Q1.** Quelle sonts les régions principales de la mémoire dans la JVM ?
+
+**R1.**
+La mémoire dans la JVM est divisée en plusieurs régions principales :
+
+- Stack : 
+  - utilisée pour stocker les variables locales, les appels de méthode et les références.
+  - Elle fonctionne selon un mécanisme LIFO (Last In, First Out).
+  - La mémoire est allouée lorsqu’une méthode est appelée et libérée automatiquement à la fin de cette méthode.
+  - La gestion est rapide, car elle n'implique pas de collecte de déchets (Garbage Collection).
+  - Données stockées : Variables primitives (int, double, etc.) définies dans une méthode, Références d’objets (mais les objets eux-mêmes sont dans le Heap).
+  - Taille limitée : La mémoire de la pile est généralement beaucoup plus petite que celle du Heap (entre 1Mo, 2Mo)
+  - Une pile trop remplie provoque une StackOverflowError.
+  
+- Heap :
+  - Le Heap est utilisé pour stocker tous les objets et les données globales.
+  - Partagé entre tous les threads d’un programme.
+  - Les objets sont créés dans le Heap avec l'opérateur new
+  - La mémoire est gérée par le Garbage Collector, qui libère les objets inutilisés.
+  - Données stockées : Tous les objets créés dans le programme, Les données de classe statiques (variables et méthodes).
+  - la mémoire Heap est beaucoup plus grande que la mémoire Stack.
+  - Peut provoquer une OutOfMemoryError si elle est saturée.
+
+**Q2.** Comment modifier la taille du heap et de stack ?
+
+**R2.**
+- Stack : Xss
+- Heap : Xms (pour la taille initiale), Xmx (pour la taille maximale)
+
+
+**Q3.** Donner moi un exemple pour provoquer StackOverflowError et OutOfMemoryError ?
+
+**R3.**
+- Exemple StackOverflowError : appel récursif d'une méthode.
+
+
+    public class Main {
+    public static void recursiveMethod() {
+    recursiveMethod(); // Récursion infinie
+    }
+    
+        public static void main(String[] args) {
+            recursiveMethod();
+        }
+    }
+
+- Exemple OutOfMemoryError : boucle infini d'ajout des gros objets dans une liste
+
+
+    import java.util.ArrayList;
+    
+    public class Main {
+        public static void main(String[] args) {
+        ArrayList<int[]> list = new ArrayList<>();
+          while (true) {
+             list.add(new int[1_000_000]); // Allocation excessive d'objets
+          }
+      }
+    }
+
+**Q4.** Quelle sont les bonnes pratiques pour optimiser la mémoire ?
+
+**R4.**
+- Éviter de créer trop d'objets inutiles.
+- Libérer les références inutilisées.
+- Utiliser des outils : Outils comme VisualVM, JProfiler pour analyser la consommation mémoire.
+
+
+### Thread et api concurrent
+
+**Q1.** La difference entre un client bloquant (comme Feign) et un client non bloquant (comme WebClient) ?
 
 Réponse :
 
