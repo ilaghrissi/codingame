@@ -54,6 +54,85 @@ Angular ?
   node_modules .**
 
 
+** Q6.** Quelle ligne de commande permet de créer une nouvelle application Angular ?
+
+** R6.**
+- [ ] npm create appName
+- [ ] ng start appName
+- [x] **ng new appName**
+- [ ] npm start appName
+
+** Q7.** Quelle Class est ajoutée au niveau d'un formulaire quand celui-ci passe tous les
+contrôles de validation ?
+
+** R7.**
+- [ ] .ng-dirty
+- [x] **.ng-valid** 
+- [ ] .ng-pristine
+- [ ] .ng-invalid
+
+** Q8.** Parmi les propositions suivantes, laquelle n'est pas une méthode du cycle de vie Angular ?
+
+** R8.**
+- [ ] ngOnChanges
+- [ ] ngOnDestroy
+- [ ] ngAfterViewInit
+- [x] **ngContentChange**
+
+** Q9.** Quelle propriété de l'objet Routes permet de définir des routes chargées à la volée (lazy loading) ?
+
+** R7.**
+- [ ] route
+- [x] **loadChildren**
+- [ ] children
+- [ ] lazyRoutes
+
+
+** Q8.**Quelle syntaxe peut-on utiliser pour matcher et traiter les routes non-trouvées ?
+
+** R8.**
+- [ ] /
+- [ ] '*'
+- [ ] &&
+- [x] ** 
+
+
+** Q9.** Qu'arrivera-t-il si on clique plusieurs fois sur le bouton tel que défini à la ligne 6 ?
+
+    import { Component } from '@angular/core';
+    
+    @Component({
+    selector: 'my-app',
+    template: `
+        <button type="button" (click)="onclick()">Click Me</button>
+        <h1 *ngIf="show">
+        {{name}}
+        </h1>
+      `
+    })
+    export class AppComponent {
+    name = 'John Doe';
+    show = true;
+    
+        onClick(){
+            this.show = !this.show;
+        }
+    }       
+
+** R9.**
+- [ ] La propriété name est cachée
+- [ ] La propriété name est affichée
+- [x] **La propriété name est affichée une fois sur deux**
+- [ ] La propriété name est effacée
+
+** Q10.**Quelle commande ne fait pas partie de la CLI Angular ?
+
+** R10.**
+- [ ] ng deploy
+- [x] **ng exit**
+- [ ] ng test
+- [ ] g lint
+
 ** Q7.**
 
 ** R7.**
@@ -64,5 +143,63 @@ Angular ?
 
 
 ## Question/Réponse
+
+**Q1.**
+On considère le composant <app-user> qui a une propriété de sortie appelée updated.
+
+Ligne 7, par quoi doint-on remplacer ???? pour obtenir la donnée à jour de la
+propriété updated ?
+
+import { Component } from '@angular/core';
+
+    @Component({
+    selector: 'my-app',
+    template: `
+        <app-user [user]="user"
+                ????="onUpdated($event)">
+        </app-user>		
+      `
+    })
+    export class AppComponent {
+    user = {
+    name: 'John Doe',
+    mail: 'johndoe@gmail.com',
+    age: 35
+    }
+    
+    onUpdated($e) {}
+    
+    }
+
+**R1.**
+
+(updated)
+
+**R2.** Quelle directive built-in Angular peut-on utiliser pour remplacer ???? à la ligne 6 pour
+d'appliquer la classe blue de manière conditionnelle ?
+
+    import { Component } from '@angular/core';
+
+    @Component({
+    selector: 'my-app',
+    template: `
+        <h1 ????="{blue: highlight}">
+            {{name}}
+        </h1>
+      `,
+    styles: [`
+       .blue {
+         color: blue
+       }
+      `
+    })
+    export class AppComponent {
+    name = 'John Doe';
+    highlight = true;
+    }
+
+**Q2**
+
+[ngClass]
 
 ## Algorithms
