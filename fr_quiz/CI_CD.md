@@ -169,5 +169,6 @@ Quel est le nom du fichier qui permet de décrire un Pipeline ?
 Jenkinsfile
 
 **Q2.** Quelle est la variable d'envrionnement qui contient le chemin du dossier principal de Jenkins ?
+
 **R2.**
 JENKINS_HOME
