@@ -118,10 +118,56 @@ A quoi sert cette console ?
 - [x] **Exécuter du code groovy**
 - [ ] Excécutez du code Java
 
+
+
+** Q10.** Qu'arrive-t-il lorsque le nombre maximum d'executors est atteint par un Agent Jenkins ?
+
+** R10.**
+- [x] **Le build sera placé dans la queue, en attente du prochain executor
+  disponible**
+- [ ] Le build sera perdu
+- [ ] Le Projet sera exécuté dans un workspace vide
+- [ ] Jenkins va émettre un avertissement pour indiquer que le nombre maximum
+  d'exécutors a été atteint
+
+
+** Q11.** Qu'est-ce qu'un « Upstream Project » dans Jenkins ?
+
+** R11.**
+- [x] **Un projet qui déclenche d'exécution d'un autre projet pendant son
+  exécution**
+- [ ] Un projet dans la file d'attente d'exécution
+- [ ] Dans un projet multi-branche, le « Upstream Project » est celui connecté à la
+  branche master
+- [ ] Le premier projet dans un Pipeline multi-étapes
+
+** Q12.** Parmi les propositions suivantes, quelle ligne de commande permet de publier des artéfacts maven sur
+Nexus ?
+
+** R12.**
+- [x] **mvn clean package deploy**
+- [ ] mvn clean package install
+- [ ] mvn clean package compile --Ddeploy=nexus
+- [ ] mvn clean package install --Ddeploy=nexus
+- [ ] mvn clean package push
+
+** Q7.**
+
+** R7.**
+- [ ] 
+- [ ] 
+- [x] 
+- [ ] 
 ## Question/Réponse
 
 **Q1.** Les Pipelines Jenkins peuvent être décrits directement depuis l'interface web, mais
 ils peuvent aussi être décrits dans des fichiers.
 <br/>
 Quel est le nom du fichier qui permet de décrire un Pipeline ?
-Réponse : Jenkinsfile
+
+**R1.**
+Jenkinsfile
+
+**Q2.** Quelle est la variable d'envrionnement qui contient le chemin du dossier principal de Jenkins ?
+**R2.**
+JENKINS_HOME

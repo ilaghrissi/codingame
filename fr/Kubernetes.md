@@ -49,10 +49,53 @@ depuis des APIs fournies par Kubernetes.
 Une équipe de développeurs front souhaitent baser l'autoscaling sur le nombre de
 requêtes HTTP entrantes. En supposant que l'application expose la métrique
 nécessaire, quelle API doit être utilisée pour réaliser cet autoscaling ?
+
+** R6.**
+
 - [ ] internal.metrics.k8s.io
 - [ ] metrics.k8s.io
 - [x] **custom.metrics.k8s.io**
 - [ ] external.metrics.k8s.io
+
+
+** Q7.** Lequel des mots-clés suivants n'est pas commun à tous les objets Kubernetes ?
+
+** R7.**
+- [ ] apiVersion
+- [ ] kind
+- [x] **data**
+- [ ] metadata
+
+** Q8.** Quelle ressource Kubernetes permet d'effectuer un routage, basé sur le host , vers plusieurs
+applications s'exécutant dans le cluster ?
+
+** R8.** 
+- [x] **Ingress**
+- [ ] IngressController
+- [ ] Service de type LoadBalancer
+- [ ] Ce n'est pas possible, seul le routing basé sur le "path" est possible
+
+
+
+** Q9.** Quelle terme n'est pas une Restart Policy valide pour un pod ?
+
+** R9.**
+- [ ] Always 
+- [ ] OnFailure
+- [ ] Never
+- [x] **OnUpdate**
+
+
+
+** Q7.**
+
+** R7.**
+- [ ] 
+- [ ] 
+- [x] 
+- [ ] 
+
+
 
 ## Question/Réponse
 **Q1.** Dans quel namespace Kubernetes crée-t-il ses objets internes ? <br/>
@@ -62,6 +105,13 @@ nécessaire, quelle API doit être utilisée pour réaliser cet autoscaling ?
 **Q2.** Quelle sous-commande de kubectl permet de lister l'ensemble des contextes disponibles dans le fichier de configuration de kubernetes (kubeconfig)? <br/>
 **R2.**: 
 config get-contexts
+
+**Q3.** Quelle sous-commande kubectl permet de voir rapidement l'utilisation de mémoire et de CPU en
+cours d'un noeud Kubernetes ?
+
+**R3.**:
+.*top.*
+
 
 ### POD
 **Q1.** C'est quoi un pod ?

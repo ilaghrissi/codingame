@@ -137,7 +137,83 @@ Parmi les choix suivants, lequel est vrai concernant la mise en cache avec Hiber
 - [ ] Properties
 - [x] **Parent**
 
+** Q17.** En base 2 (binaire), quel est le résultat final de l'opération (0101 | 0100) & 1100 ?
 
+** R17.**
+- [x] **0100**
+- [ ] 1000
+- [ ] 10000 
+- [ ] 0101
+
+** Q18.** Pourquoi le code suivant ne se compile pas ?
+
+    public void readFile(String fileName) {
+        try {
+        List<String> lines = Files.readAllLines(Paths.get(fileName));
+        lines.stream()
+        .forEach(System.out::println);
+        }
+        catch (Exception e) {
+        System.out.println("Exception occurred.");
+        }
+        catch (IOException e) {
+        System.out.println("IOException occurred.");
+        }
+    }
+
+** R18.**
+- [ ] La méthode n'a pas fermé le fichier après lecture
+- [ ] La méthode cherche à lire un fichier qui n'existe pas
+- [x] **La gestion de Exception doit venir après celle de IOException**
+- [ ] lines doit être de type ArrayList<String> et non de type
+  List<String>
+
+** Q19.** Vous avez développé un petit script pour vous et vos collègues, afin de vérifier la disponibilité d'un
+serveur de sauvegarde.
+Ce script doit être lancé dans la console et possède 3 arguments :
+mode verbeux (-v) nom du serveur (-s) nombre de tentatives (-n) (une tentative par défaut)
+Voici un extrait de votre script :
+
+    import org.apache.commons.cli.*;
+    public class Main {
+        public static void main(String[] args) throws ParseException {
+        Options options = new Options();
+        Option verbose = new Option("v", "verbose", false, "verbose mode");
+        options.addOption(verbose);
+        Option server = new Option("s", "server", true, "server name");
+        server.setRequired(true);
+        options.addOption(server);
+        Option nbTries = Option.builder("n")
+        .longOpt("nbtries")
+        .hasArg()
+        .type(Number.class)
+        .build();
+        options.addOption(nbTries);
+        CommandLineParser parser = new DefaultParser();
+        CommandLine cmd = parser.parse(options, args);
+        }
+    }
+
+
+Quelle(t) ligne(s) de commande fonctionnera sans déclencher une ParseException ?
+Sélectionnez toutes les réponses valables.
+
+** R19.**
+- [x] **java Main -s serv_potato**
+- [x] **java Main --verbose --server serv_potato --nbtries 12**
+- [ ] java Main --verbose -n 12 
+- [ ] java Main -v -s serv_potato -n
+- [ ] java Main -v --server serv_potato -n 12 -z
+
+
+
+** Q7.**
+
+** R7.**
+- [ ] 
+- [ ] 
+- [x] 
+- [ ] 
 
 ## Question/Réponse
 ### Notion de base

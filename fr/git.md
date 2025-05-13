@@ -34,6 +34,10 @@
 - [ ] .git
 - [x] **.gitconfig**
 
+**Q5.**
+
+**Q6.**
+git commit --amend -m "Fixed styling issue"
 
 ## Question/Réponse
 
