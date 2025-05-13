@@ -81,8 +81,8 @@ Sélectionner toutes les bonnes réponses.
   obj.multiply() retourne 120
 - [ ] obj.sum() retourne NaN,
   obj.multiply() retourne NaN
-- [x] obj.sum() retourne NaN,
-  obj.multiply() retourne 120
+- [x] **obj.sum() retourne NaN,
+  obj.multiply() retourne 120**
 
 ** Q6.** Laquelle des options suivantes n'est pas un type valide en Javascript ?
 
