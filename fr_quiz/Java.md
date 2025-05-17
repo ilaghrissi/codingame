@@ -303,78 +303,9 @@ String str = "This is a string\n This is the next line.\nHello world."
 
 **R4.** Grâce à l’utilisation d’un mécanisme interne basé sur les méthodes equals() et hashCode(), qui permettent de vérifier si deux objets sont égaux avant de les insérer dans la collection
 
-### Veille technique
-**Q1.** Quelles sont les nouveautés de Java 21 ?
-
-**R1.**
-- Virtual Threads : les threads virtuels créez des threads légers (virtually unlimited) gérés par le runtime JVM
-- Scoped value : Permet de partager des données immuables de manière efficace entre les threads. Alternative aux variables ThreadLocal.
-- String Templates : interpoler les chaînes
-- Pattern Matching for switch
-- Record Patterns
- - Structured Concurrency : Simplifie la gestion des tâches parallèles, en groupant les tâches exécutées de manière structurée
-
-### Gestion de la mémoire 
-
-**Q1.** Quelle sonts les régions principales de la mémoire dans la JVM ?
-
-**R1.**
-La mémoire dans la JVM est divisée en plusieurs régions principales :
-
-- Stack : 
-  - utilisée pour stocker les variables locales, les appels de méthode et les références.
-  - Elle fonctionne selon un mécanisme LIFO (Last In, First Out).
-  - La mémoire est allouée lorsqu’une méthode est appelée et libérée automatiquement à la fin de cette méthode.
-  - La gestion est rapide, car elle n'implique pas de collecte de déchets (Garbage Collection).
-  - Données stockées : Variables primitives (int, double, etc.) définies dans une méthode, Références d’objets (mais les objets eux-mêmes sont dans le Heap).
-  - Taille limitée : La mémoire de la pile est généralement beaucoup plus petite que celle du Heap (entre 1Mo, 2Mo)
-  - Une pile trop remplie provoque une StackOverflowError.
-  
-- Heap :
-  - Le Heap est utilisé pour stocker tous les objets et les données globales.
-  - Partagé entre tous les threads d’un programme.
-  - Les objets sont créés dans le Heap avec l'opérateur new
-  - La mémoire est gérée par le Garbage Collector, qui libère les objets inutilisés.
-  - Données stockées : Tous les objets créés dans le programme, Les données de classe statiques (variables et méthodes).
-  - la mémoire Heap est beaucoup plus grande que la mémoire Stack.
-  - Peut provoquer une OutOfMemoryError si elle est saturée.
-
-**Q2.** Comment modifier la taille du heap et de stack ?
-
-**R2.**
-- Stack : Xss
-- Heap : Xms (pour la taille initiale), Xmx (pour la taille maximale)
 
 
-**Q3.** Donner moi un exemple pour provoquer StackOverflowError et OutOfMemoryError ?
 
-**R3.**
-- Exemple StackOverflowError : appel récursif d'une méthode.
-
-
-    public class Main {
-    public static void recursiveMethod() {
-    recursiveMethod(); // Récursion infinie
-    }
-    
-        public static void main(String[] args) {
-            recursiveMethod();
-        }
-    }
-
-- Exemple OutOfMemoryError : boucle infini d'ajout des gros objets dans une liste
-
-
-    import java.util.ArrayList;
-    
-    public class Main {
-        public static void main(String[] args) {
-        ArrayList<int[]> list = new ArrayList<>();
-          while (true) {
-             list.add(new int[1_000_000]); // Allocation excessive d'objets
-          }
-      }
-    }
 
 
 

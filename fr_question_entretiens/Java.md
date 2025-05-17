@@ -134,6 +134,66 @@ Pas possible avec les classes, possible avec interfaces.
 - Libérer les références inutilisées.
 - Utiliser des outils : Outils comme VisualVM, JProfiler pour analyser la consommation mémoire.
 
+**Q1.** Quelle sonts les régions principales de la mémoire dans la JVM ?
+
+**R1.**
+La mémoire dans la JVM est divisée en plusieurs régions principales :
+
+- Stack :
+   - utilisée pour stocker les variables locales, les appels de méthode et les références.
+   - Elle fonctionne selon un mécanisme LIFO (Last In, First Out).
+   - La mémoire est allouée lorsqu’une méthode est appelée et libérée automatiquement à la fin de cette méthode.
+   - La gestion est rapide, car elle n'implique pas de collecte de déchets (Garbage Collection).
+   - Données stockées : Variables primitives (int, double, etc.) définies dans une méthode, Références d’objets (mais les objets eux-mêmes sont dans le Heap).
+   - Taille limitée : La mémoire de la pile est généralement beaucoup plus petite que celle du Heap (entre 1Mo, 2Mo)
+   - Une pile trop remplie provoque une StackOverflowError.
+
+- Heap :
+   - Le Heap est utilisé pour stocker tous les objets et les données globales.
+   - Partagé entre tous les threads d’un programme.
+   - Les objets sont créés dans le Heap avec l'opérateur new
+   - La mémoire est gérée par le Garbage Collector, qui libère les objets inutilisés.
+   - Données stockées : Tous les objets créés dans le programme, Les données de classe statiques (variables et méthodes).
+   - la mémoire Heap est beaucoup plus grande que la mémoire Stack.
+   - Peut provoquer une OutOfMemoryError si elle est saturée.
+
+**Q2.** Comment modifier la taille du heap et de stack ?
+
+**R2.**
+- Stack : Xss
+- Heap : Xms (pour la taille initiale), Xmx (pour la taille maximale)
+
+
+**Q3.** Donner moi un exemple pour provoquer StackOverflowError et OutOfMemoryError ?
+
+**R3.**
+- Exemple StackOverflowError : appel récursif d'une méthode.
+
+
+    public class Main {
+    public static void recursiveMethod() {
+    recursiveMethod(); // Récursion infinie
+    }
+    
+        public static void main(String[] args) {
+            recursiveMethod();
+        }
+    }
+
+- Exemple OutOfMemoryError : boucle infini d'ajout des gros objets dans une liste
+
+
+    import java.util.ArrayList;
+    
+    public class Main {
+        public static void main(String[] args) {
+        ArrayList<int[]> list = new ArrayList<>();
+          while (true) {
+             list.add(new int[1_000_000]); // Allocation excessive d'objets
+          }
+      }
+    }
+
 ### Multithreading & Concurrency
 
 
@@ -218,7 +278,16 @@ Blocage mutuel entre deux threads qui attendent l’un l’autre.
 **Q1.**
 **R1.**
 
-### Java 8 et au-delà
+### Veille technique
+**Q1.** Quelles sont les nouveautés de Java 21 ?
+
+**R1.**
+- Virtual Threads : les threads virtuels créez des threads légers (virtually unlimited) gérés par le runtime JVM
+- Scoped value : Permet de partager des données immuables de manière efficace entre les threads. Alternative aux variables ThreadLocal.
+- String Templates : interpoler les chaînes
+- Pattern Matching for switch
+- Record Patterns
+- Structured Concurrency : Simplifie la gestion des tâches parallèles, en groupant les tâches exécutées de manière structurée
 
 **Q1.** Qu’est-ce qu’un stream ? Exemples
 **R1.**
@@ -251,15 +320,19 @@ Une interface avec une seule méthode abstraite.
 ### Collections
    
 **Q1.** Comment fonctionne HashMap en interne ?
+
 **R1.**
 
 **Q1.** Quelle est la complexité d’accès dans une HashMap ?
+
 **R1.**
 
 **Q1.** Qu’est-ce que ConcurrentHashMap ?
+
 **R1.**
 
 **Q1.** Quelle est la différence entre Set, List et Map ?
+
 **R1.**
 
 **Q1.** Qu’est-ce que le fail-fast dans les collections Java ?
@@ -267,11 +340,114 @@ Une interface avec une seule méthode abstraite.
 **R1.**
 Exception (ConcurrentModificationException) si tu modifies une collection pendant l’itération.
 
-**R1.**
-**Q1.**
+**Q1.** Différences entre les boucles volatiles et synchronize ?
 
 **R1.**
-**Q1.**
+🔹 1. volatile
+- But : garantir la visibilité d’une variable entre threads.
+- Quand une variable est volatile, chaque thread lit directement sa dernière valeur en mémoire principale (et non dans un cache local).
+- Ne garantit pas l'exclusion mutuelle (pas de verrou).
+
+✅ Exemple :
+
+      volatile boolean running = true;
+
+      while (running) {
+      // boucle qui tourne tant que running est true
+      }
+
+➡️ Si un autre thread fait running = false, le thread courant le verra immédiatement grâce au volatile.
+
+🔹 2. synchronized
+- But : garantir à la fois visibilité et atomicité (exclusion mutuelle).
+- Empêche plusieurs threads d'accéder en même temps à une section critique.
+- Implique un verrou (lock) sur un objet ou une méthode.
+
+      synchronized(this) {
+      // section critique protégée
+      }
+
+➡️ Un seul thread à la fois peut entrer ici.
+
+⚠️ En résumé :
+
+| Aspect              | `volatile`               | `synchronized`                           |
+|---------------------|--------------------------|------------------------------------------|
+| Visibilité          | ✅                        | ✅                                        |
+| Atomicité           | ❌                        | ✅                                        |
+| Utilise un verrou   | ❌                        | ✅                                        |
+| Coût en performance | Faible                   | Plus élevé (lock)                        |
+| Utilisation typique | Indicateur d’arrêt, flag | Opérations critiques, accès à des objets |
+
+🧠 À retenir pour l'entretien :
+Utilise volatile si un seul thread modifie la variable, et les autres ne font que la lire.
+
+Utilise synchronized si plusieurs threads modifient ou lisent en même temps et que tu veux protéger une section critique.
+
+**Q1.** Peut-on synchroniser un constructeur en Java ?
 
 **R1.**
+Non, on ne peut pas synchroniser un constructeur directement avec le mot-clé synchronized.
+
+Pourquoi ?
+- Le mot-clé synchronized sert à verrouiller un objet ou une classe pour empêcher l'accès concurrent à une section critique. 
+- Lorsqu’un constructeur est appelé, l'objet n'est pas encore complètement construit, donc il n’y a pas d’objet sur lequel appliquer un verrou. 
+- De plus, la syntaxe Java ne permet pas de déclarer un constructeur synchronized.
+
+Comment gérer la synchronisation lors de la création d’objets ?
+- Synchroniser la méthode qui crée l’objet (exemple : une méthode getInstance() dans un Singleton). 
+- Utiliser des blocs synchronisés à l’intérieur du constructeur, mais c’est rarement nécessaire. 
+- Gérer la synchronisation en dehors du constructeur.
+
+Exemple classique : Singleton thread-safe
+
+
+         public class Singleton {
+            private static Singleton instance;
+         
+             private Singleton() {
+                 // constructeur privé
+             }
+         
+             public static synchronized Singleton getInstance() {
+                 if (instance == null) {
+                     instance = new Singleton();
+                 }
+                 return instance;
+             }
+         }
+
+**Q1.** Quelles différences entre sleep et wait dans la classe abstraite ?
+
+**R1.**
+
+| Critère                         | `sleep()`                                | `wait()`                                                  |
+|---------------------------------|------------------------------------------|-----------------------------------------------------------|
+| Appartient à                    | `Thread` class                           | `Object` class                                            |
+| Nécessite un `synchronized` ?   | ❌ Non                                    | ✅ Oui (doit être appelé dans un bloc synchronisé)         |
+| Relâche le verrou (`monitor`) ? | ❌ Non                                    | ✅ Oui                                                     |
+| Peut être utilisé pour          | Mettre le thread en pause temporairement | Attendre une notification d’un autre thread               |
+| Réveil automatique ?            | ✅ Oui (après le temps spécifié)          | ❌ Non (doit être réveillé par `notify()` / `notifyAll()`) |
+| Lève une exception ?            | `InterruptedException`                   | `InterruptedException`                                    |
+
+🔹 sleep() : pause passive
+- Fait dormir le thread courant pendant un certain temps. 
+- N'a rien à voir avec la synchronisation ou les verrous. 
+- N’a aucun effet sur les locks.
+   
+         Thread.sleep(1000); // Le thread dort 1 seconde
+
+🔹 wait() : mécanisme de synchronisation
+- Utilisé pour suspendre l’exécution jusqu’à ce qu’un autre thread appelle notify() ou notifyAll(). 
+- Doit être appelé à l’intérieur d’un bloc synchronized. 
+- Relâche le verrou sur l’objet courant.
+
+         synchronized(obj) {
+         obj.wait();  // Le thread attend une notification sur obj
+         }
+
+🧠 À retenir pour l'entretien :
+sleep() est utilisé pour temporiser un thread.
+wait() est utilisé pour synchroniser des threads, en attendant une condition et en relâchant le verrou.
 **Q1.**
+**R1.**
