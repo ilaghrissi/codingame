@@ -94,3 +94,48 @@ D – Dependency Inversion Principle
 - Facilite les tests unitaires (mock).
 - Encourage le développement orienté contrat.
 - Respecte le principe d’inversion de dépendance (D de SOLID).
+
+
+**Q1** C'est quoi clean code ?
+
+**R1**
+
+🔹 Définition simple :
+Le clean code est un code qui communique clairement ce qu’il fait, sans besoin d’interprétation, et qui évite les complexités inutiles.
+
+✅ Principes du Clean Code :
+Noms significatifs :
+
+❌ int a; → ✅ int age;
+
+Le nom des variables, méthodes et classes doit refléter leur rôle.
+
+Méthodes courtes et lisibles :
+
+Une méthode = une seule responsabilité.
+
+Longueur idéale : 5 à 20 lignes maximum.
+
+Pas de duplication :
+
+Le code ne doit pas se répéter. Si tu répètes du code → extrait une méthode.
+
+Fonctions pures et prévisibles :
+
+Une fonction doit faire ce qu’elle dit, sans effet de bord caché.
+
+Code auto-documenté :
+
+Le code doit être suffisamment clair pour ne pas dépendre trop des commentaires.
+
+Les commentaires sont utiles uniquement si quelque chose n'est pas évident.
+
+Formatage cohérent :
+
+Indentation, espaces, sauts de lignes réguliers → pour faciliter la lecture.
+
+Gestion claire des exceptions :
+
+Pas de catch (Exception e) générique.
+
+Utiliser des types d’exceptions explicites.

@@ -197,4 +197,4 @@ Par exemple, si tu as plusieurs pods en arrière-plan, un Service peut rediriger
 
 **R1.**
 
-Kubernetes (ou K8s) est une plateforme open-source qui permet de déployer, gérer et faire évoluer automatiquement des conteneurs (comme ceux créés avec Docker).
+Kubernetes (ou K8s) est est un orchestrateur de conteneurs open-source développé par Google. Il est utilisé pour déployer, gérer, scaler et automatiser des applications conteneurisées, comme celles exécutées dans Docker.
