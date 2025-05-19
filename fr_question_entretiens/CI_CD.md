@@ -29,8 +29,8 @@ Plan → Develop → Build → Test → Release → Deploy → Operate → Monit
 **R1.**
 🔹 1. CI = Continuous Integration (Intégration Continue)
 - Chaque fois qu’un développeur pousse du code :
-  - Les tests s’exécutent automatiquement 
-  - Le code est compilé/buildé 
+  - Le code est compilé/buildé
+  - Les tests s’exécutent automatiquement
   - On   vérifie la qualité du code
 - Objectif : détecter les bugs le plus tôt possible
 
