@@ -191,3 +191,10 @@ Si un pod avec le label app=my-app est disponible, il sera inclus dans les endpo
 Un Service agit comme un proxy pour accéder aux Pods. Lorsque tu définis un Service, tu spécifies un ou plusieurs ports et Kubernetes utilise un **iptables** ou **ipvs** pour router les demandes entrantes vers les bons pods.
 
 Par exemple, si tu as plusieurs pods en arrière-plan, un Service peut rediriger les requêtes vers ces pods de manière équilibrée, en distribuant le trafic selon la configuration de ton équilibreur de charge interne (Round Robin par défaut).
+
+
+**Q1.** C’est quoi Kubernetes ?
+
+**R1.**
+
+Kubernetes (ou K8s) est une plateforme open-source qui permet de déployer, gérer et faire évoluer automatiquement des conteneurs (comme ceux créés avec Docker).
