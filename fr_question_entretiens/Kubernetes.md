@@ -198,3 +198,5 @@ Par exemple, si tu as plusieurs pods en arrière-plan, un Service peut rediriger
 **R1.**
 
 Kubernetes (ou K8s) est est un orchestrateur de conteneurs open-source développé par Google. Il est utilisé pour déployer, gérer, scaler et automatiser des applications conteneurisées, comme celles exécutées dans Docker.
+
+Kubernetes est appelé "orchestrateur" parce qu’il gère **automatiquement le déploiement, la mise à l’échelle, la résilience et la gestion des conteneurs** (comme Docker), comme un chef d’orchestre qui dirige les musiciens dans un concert.

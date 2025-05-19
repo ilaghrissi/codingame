@@ -139,3 +139,9 @@ Gestion claire des exceptions :
 Pas de catch (Exception e) générique.
 
 Utiliser des types d’exceptions explicites.
+
+**Q1.** quel est le process à suivre pour corriger un BUG?
+
+**R1**
+
+Reproduire → Analyser → Isoler (Utiliser des points d’arrêt (debugger)) → Corriger → Tester → Documenter
