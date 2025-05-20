@@ -415,6 +415,7 @@ Blocage mutuel entre deux threads qui attendent l’un l’autre.
         - Exemple :
 
 
+
            @FunctionalInterface
            public interface Calculateur {
                 int calculer(int a, int b); // une seule méthode abstraite
