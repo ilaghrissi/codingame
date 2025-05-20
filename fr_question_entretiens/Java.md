@@ -32,6 +32,22 @@ Exemple : String.
 - Interface : 100% abstraite (jusqu’à Java 7). Depuis Java 8, permet default et static methods. 
 - Classe abstraite : peut avoir des méthodes concrètes, variables, constructeur.
 
+**Q1.** Quand utiliser une interface ? et Quand utiliser une classe abstraite ?
+
+**R1.**
+
+- Quand utiliser une interface ?
+  - Utilise une interface quand tu veux définir un contrat que plusieurs classes peuvent implémenter indépendamment, même si elles n'ont aucun lien entre elles.
+  - Si tu veux permettre à une classe de gérer plusieurs rôles (héritage multiple).
+  - Si tu veux injecter des comportements via l'inversion de dépendance (DI / IoC).
+  
+- Quand utiliser une classe abstraite ?
+  - Factoriser du code commun.
+  - Fournir une base partielle avec des attributs et des méthodes déjà prêtes
+  - Imposer une structure commune + une logique partielle.
+  - si tu veux éviter de dupliquer du code entre plusieurs classes similaires.
+  - si tu as besoin de constructeurs, de variables d’instance ou de méthodes non abstraites.
+  - 
 **Q1.** Quelle est la différence entre ArrayList et LinkedList ?
 
 **R1.**
