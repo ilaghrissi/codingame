@@ -355,13 +355,180 @@ Blocage mutuel entre deux threads qui attendent l’un l’autre.
 **R1.**
 
 ### Veille technique
+
+**Q1.** Quelles sont les nouveautés de Java 8 ?
+
+**R1.**
+1. Expressions lambda
+    - C’est une fonction anonyme (sans nom, sans mot-clé class ou new)
+2. Interface fonctionnelle et annotation @FunctionalInterface:
+    - Une interface fonctionnelle est une interface qui ne contient qu’une seule méthode abstraite(non default, non static).
+    - Elle peut contenir plusieurs méthodes, mais une seule doit être abstraite.
+    - L'annotaion @FunctionalInterface est facultative
+        - signale que l’interface est conçue pour être fonctionnelle.
+        - provoque une erreur de compilation si quelqu’un ajoute accidentellement une deuxième méthode abstraite.
+        - Interfaces fonctionnelles prêtes à l’emploi dans Java
+            - Predicate<T>
+            - Function<T, R>
+            - Consumer<T>
+            - Supplier<T>
+            - BinaryOperator<T>
+        - Exemple :
+
+
+       @FunctionalInterface
+       public interface Calculateur {
+            int calculer(int a, int b); // une seule méthode abstraite
+       }
+
+
+        public class Test {
+            public static void main(String[] args) {
+                Calculateur addition = (a, b) -> a + b;
+                System.out.println(addition.calculer(5, 3)); // Affiche 8
+            }
+        }
+
+3. Stream API
+4. Optional : Classe pour éviter les NullPointerException,
+5. Méthodes par défaut dans les interfaces :
+    - Avant java 8 :
+      Si tu voulais ajouter une méthode à une interface,
+      tu devais la redéfinir dans toutes les classes qui l’implémentaient → casse de compatibilité.
+    - Avec Java 8 :
+      Tu peux ajouter une méthode avec une implémentation par défaut dans une interface sans casser le code existant.
+6. Méthodes statiques dans les interfaces  :
+    - elles peuvent être appelées sans créer une instance de l'interface.
+7. Références de méthode (Method references) :
+    - Raccourci pour appeler une méthode.
+    - Exemple : names.forEach(System.out::println);
+8. API java.time
+9. Nashorn : Moteur JavaScript : Un moteur pour exécuter du code JavaScript directement dans une application Java.
+
+**Q1.** Quelles sont les nouveautés de Java 9 ?
+1. Jigsaw – Modularité du JDK : 
+   - Java devient modulaire grâce à la notion de modules (module-info.java), pour mieux organiser les projets et réduire le temps de chargement.
+   - Exemple :
+
+
+         module com.monapp {
+            requires java.base;
+            exports com.monapp.services;
+         }
+
+2. JShell – REPL (Read-Eval-Print Loop)
+   - Un outil en ligne de commande pour tester du code Java rapidement sans créer de classe ni méthode main.
+   - Exemple
+
+
+        jshell
+        jshell> int x = 5;
+        jshell> System.out.println(x * 2); // 10
+
+3. Méthodes de fabrique pour les collections (List.of, Set.of, Map.of)  
+   - Création rapide et immuable de collections.
+   - Exemple :
+
+
+         List<String> noms = List.of("Ali", "Sara", "Mina");
+         Set<Integer> chiffres = Set.of(1, 2, 3);
+         Map<String, Integer> notes = Map.of("Math", 18, "Physique", 17);
+
+4. Ajout de méthodes privées
+   - Ajout de méthodes privées dans les interfaces pour factoriser le code utilisé dans les méthodes default.
+   - Exemple :
+
+
+        interface Calculatrice {
+            default int calcul(int a, int b) {
+                return addition(a, b);
+            }
+        
+            private int addition(int a, int b) {
+                return a + b;
+            }
+         }
+
+5. API Stream améliorée
+   - Ajout de nouvelles méthodes : takeWhile(), dropWhile(), ofNullable()
+   - Exemple :
+   
+    
+        List<Integer> list = List.of(1, 2, 3, 4, 5);
+        list.stream()
+        .takeWhile(i -> i < 4)
+        .forEach(System.out::println); // 1, 2, 3
+
+**Q1.** Quelles sont les nouveautés de Java 17 ?
+
+1. Sealed Classes
+  - Permettent de restreindre les sous-classes possibles d’une classe ou interface.
+  - Exemple :
+
+        public sealed class Animal permits Chat, Chien {}
+
+        final class Chat extends Animal {}
+        final class Chien extends Animal {}
+
+2. Pattern Matching pour instanceof
+  - plus besoin de caster après un instanceof.
+  - Exemple : 
+
+        if (obj instanceof String s) {
+          System.out.println(s.length());
+        }
+
+3. Records
+  - Permet de créer facilement des classes immuables avec des champs, getters, equals, hashCode, toString.
+  - Exemple :
+  
+        public record Person(String name, int age) {}
+
+        Person p = new Person("Ali", 30);
+        System.out.println(p.name()); // Ali
+
+4. Switch Expressions
+   - Écriture plus claire et expressionnelle des switch
+   - Exemple :
+   
+
+         String result = switch (day) {
+             case MONDAY, FRIDAY -> "Weekend soon";
+             case SATURDAY, SUNDAY -> "Weekend!";
+             default -> "Workday";
+         };
+
+5. Text Blocks
+   - Permettent d’écrire des chaînes multilignes sans concaténation ni échappement.
+   - Exemple :
+
+
+         String json = """
+         {
+         "name": "Java",
+         "version": 17
+         }
+         """;
+
+
+
 **Q1.** Quelles sont les nouveautés de Java 21 ?
 
 **R1.**
-- Virtual Threads : les threads virtuels créez des threads légers (virtually unlimited) gérés par le runtime JVM
-- Scoped value : Permet de partager des données immuables de manière efficace entre les threads. Alternative aux variables ThreadLocal.
-- String Templates : interpoler les chaînes
-- Pattern Matching for switch : 
+1. Virtual Threads : 
+   - les threads virtuels créez des threads légers (virtually unlimited) gérés par le runtime JVM
+   - Avant Java 21, chaque thread Java correspondait à un thread natif du système d'exploitation,
+   ce qui limitait la scalabilité (gros coût mémoire par thread, et limite OS).
+     Inconvénients :
+     - Lent à démarrer.
+     - Consomme beaucoup de mémoire (stack ~1 Mo).
+     - Peut saturer rapidement à partir de quelques milliers de threads.
+   - Après Java 21 :
+     - Les threads virtuels sont allégés, gérés par la JVM et non liés à un thread système.
+     Cela permet de lancer des millions de threads sans surcharge majeure.
+2. Scoped value : Permet de partager des données immuables de manière efficace entre les threads. Alternative aux variables ThreadLocal.
+3. String Templates : interpoler les chaînes
+4. Pattern Matching for switch : 
   - Objectif : Simplifier les conditions avec instanceof dans switch.
 
 
@@ -374,14 +541,14 @@ Blocage mutuel entre deux threads qui attendent l’un l’autre.
           };
        }
 
-- Record Patterns
+5. Record Patterns
   - Objectif : Déstructuration de record dans un switch.
 
           record Point(int x, int y) {}
           static void printPoint(Object obj) {
-          if (obj instanceof Point(int x, int y)) {
-          System.out.println("X: " + x + ", Y: " + y);
-          }
+              if (obj instanceof Point(int x, int y)) {
+              System.out.println("X: " + x + ", Y: " + y);
+              }
           }
 
 Ou dans un switch :
@@ -394,7 +561,10 @@ Ou dans un switch :
         }
 
 
-- Structured Concurrency : Simplifie la gestion des tâches parallèles, en groupant les tâches exécutées de manière structurée
+6. Structured Concurrency : 
+- Simplifie la gestion des tâches parallèles, en groupant les tâches exécutées de manière structurée
+
+        
 
 **Q1.** Qu’est-ce qu’un stream ? Exemples
 **R1.**
@@ -416,9 +586,7 @@ Une interface avec une seule méthode abstraite.
 - map() : transforme chaque élément.
 - flatMap() : aplatit les structures imbriquées.
 
-**Q1.** Quelles sont les nouveautés de Java 8 / 11 / 17 ? (selon ce que l'entreprise utilise)
 
-**R1.**
 
 **Q1.**
 
