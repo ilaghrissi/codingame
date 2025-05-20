@@ -195,8 +195,31 @@ Pas possible avec les classes, possible avec interfaces.
 **Q1.** Quelle est la différence entre les exceptions checked et unchecked ?
 
 **R1.**
-- Checked : obligées d’être capturées (ex : IOException). 
-- Unchecked : héritent de RuntimeException (ex : NullPointerException).
+- Checked : 
+  - Contrôlées à la compilation
+  - Héritent de la classe Exception (mais pas de RuntimeException)
+  - obligées d’être capturées (ex : IOException). 
+  - Exemple : Lire un fichier 
+
+
+        import java.io.*;
+        public class Fichier {
+            public void lireFichier(String chemin) throws IOException {
+            FileReader fr = new FileReader(chemin);  // IOException est checked
+            }
+        }
+- Unchecked : 
+  - héritent de RuntimeException (ex : NullPointerException).
+  - Pas obligatoires à capturer
+  - Exemple : divison par 0
+
+
+        public class Division {
+            public int diviser(int a, int b) {
+            return a / b;  // peut lancer ArithmeticException si b == 0
+            }
+        }
+
 
 **Q1.** Quand utiliser try-with-resources ?
 
