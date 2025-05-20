@@ -73,19 +73,105 @@
 **R1.**
 
 S – Single Responsibility Principle
-➤ Une classe = une seule responsabilité.
+- Une classe = une seule responsabilité.
+- Bon exemple : Exemple 
+
+
+          class FacturePrinter {
+              void imprimer(Facture f) {
+              // Imprimer la facture
+              }
+          }
+          
+          class FactureSauvegarde {
+              void sauvegarder(Facture f) {
+              // Sauvegarder dans DB ou fichier
+              }
+          }
+❌ Mauvais : une seule classe qui fait impression, sauvegarde, calcul, etc.
+
 
 O – Open/Closed Principle
-➤ Ouvert à l’extension, fermé à la modification.
+- Ouvert à l’extension, fermé à la modification.
+- ✅ Utilise l’héritage ou les interfaces :
+- Exemples :
+
+
+          interface Remise {
+            double calculer(double montant);
+          }
+          
+          class RemiseEtudiant implements Remise {
+              public double calculer(double montant) {
+              return montant * 0.8;
+              }
+          }
+          
+          class RemiseVIP implements Remise {
+              public double calculer(double montant) {
+              return montant * 0.7;
+              }
+          }
+
+➡️ Tu peux ajouter d’autres types de remises sans modifier le code existant.
 
 L – Liskov Substitution Principle
-➤ Une sous-classe doit pouvoir remplacer la classe mère.
+- Une sous-classe doit pouvoir remplacer la classe mère.
+- Exemple :
+
+
+        class Animal {
+            void faireDuBruit() { System.out.println("Bruit"); }
+        }
+        
+        class Chien extends Animal {
+        void faireDuBruit() { System.out.println("Wouf"); }
+        }
+        
+        void jouer(Animal a) {
+        a.faireDuBruit();  // OK avec Chien, Chat, etc.
+        }
+
 
 I – Interface Segregation Principle
-➤ Pas d’interfaces trop grosses, mieux vaut les découper.
+- Pas d’interfaces trop grosses, mieux vaut les découper.
+  ❌ Mauvais exemple :
 
+
+        interface Oiseau {
+          void voler();
+          void nager(); // un moineau n’a rien à faire avec ça
+        }
+  ✅ Bon design :
+
+
+        interface Volant {
+            void voler();
+        }
+        
+        interface Nageur {
+            void nager();
+        }
 D – Dependency Inversion Principle
-➤ Dépendre d’abstractions, pas d’implémentations concrètes.
+- Dépendre d’abstractions, pas d’implémentations concrètes.
+- Dépendre d’abstractions, pas de classes concrètes.
+  ❌ Mauvais :
+
+
+      class Service {
+          private Repository repo = new MySqlRepo(); // couplage fort
+      }
+
+  ✅ Bon :
+
+
+      class Service {
+          private final Repository repo;
+      
+          public Service(Repository repo) {
+              this.repo = repo;
+          }
+      }
 
 **Q1.** Pourquoi préférer les interfaces aux classes concrètes ?
 
